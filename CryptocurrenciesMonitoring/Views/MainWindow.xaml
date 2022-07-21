@@ -1,0 +1,25 @@
+﻿<Window x:Class="CryptocurrenciesMonitoring.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptocurrenciesMonitoring"
+        mc:Ignorable="d"
+        Title="Crypto_Currencies_Monitor" Height="600" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="MainStackPanel" Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="Main_Currencies" Content="Currencies" Click="Main_Currencies_Click" Height="30" Width="110" Margin="10" FontSize="18"></Button>
+            <Button x:Name="ConvertCurrency" Content="Convert" Click="ConvertCurrency_Click" Height="30" Width="100" Margin="10" FontSize="18"></Button>
+            <RadioButton x:Name="Dark" Content="Dark Theme" VerticalContentAlignment="Center" Click="Dark_Click" Margin="10" FontSize="15"></RadioButton>
+            <RadioButton x:Name="Light" Content="Light Theme" Click="Light_Click" IsChecked="True" VerticalContentAlignment="Center" Margin="10" FontSize="15"></RadioButton>
+            <TextBox x:Name="Name_Currency" Width="150" MaxLength="50" Margin="10,10,5,10" VerticalContentAlignment="Center" ToolTip="Currency Name for Searching" FontFamily="Tahoma" FontSize="14"/>
+            <Button x:Name="SearchCurrency" Content="Search Currency" Width="120"  Margin="10" Click="SearchCurrency_Click"  FontSize="16" />
+            <ComboBox x:Name="LaguagesCombo" Width="50" Margin="35,5,10,5"></ComboBox>
+        </StackPanel>
+        <Frame x:Name="ProjectFrame" Grid.Row="1" Background="WhiteSmoke" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
