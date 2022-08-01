@@ -9,11 +9,18 @@
       Title="CurrencyConvert">
 
     <Grid Background="WhiteSmoke">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="First Currency"/>
-        <Label Grid.Column="1" Content="Second Currency"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">            
+            <Label Content="First Currency" HorizontalAlignment="Center" Margin="10, 10, 0, 10"/>
+            <ComboBox Name="firstCurrencyComboBox" Width="180" Height="20" Margin="10" />
+            <Label Content="Second Currency" HorizontalAlignment="Center" Margin="100, 10, 0, 10"/>
+            <ComboBox Name="secondCurrencyComboBox" Width="180" Height="20" Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">            
+            <TextBlock x:Name="cultureInform" Height="50" Margin="20"/>
+        </StackPanel>
     </Grid>
 </Page>

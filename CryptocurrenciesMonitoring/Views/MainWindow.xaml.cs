@@ -17,93 +17,117 @@ using System.IO;
 using System.Net;
 using RestSharp;
 using Newtonsoft.Json;
+using System.Text.Json;
+using System.Net.Http;
 
-namespace CryptocurrenciesMonitoring
+using CryptocurrenciesMonitoring.Models;
+using CryptocurrenciesMonitoring.Services;
+using CryptocurrenciesMonitoring.ViewModels;
+using System.Windows.Markup;
+using System.Globalization;
+
+namespace CryptocurrenciesMonitoring.Views
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Page> pages;
-        CurrencyConvert currencyConvert;
-        Currencies currencies;
+        MainWindowViewModel viewModel;
+        public CurrencyConvert currencyConvert;
+        public Currencies currencies;
+        public CurrencyInfo currencyInfo;
+        CryptoList content;
+
+        private readonly HttpClient client;
+        DataService data;
+
         public MainWindow()
         {
             InitializeComponent();
-            this.pages =  new List<Page>();
+            viewModel = new MainWindowViewModel();
+            DataContext = viewModel;
+            //data = new DataService();
+            ControlStartWindows();
+            
+            //client = new HttpClient();            
 
-            currencyConvert = new CurrencyConvert();
-            currencies = new Currencies();
-            ProjectFrame.Content = currencies;
-            InitializeData();
-
+            //InitLonguageCombo();
         }
-        string ApiRequestCrypto = "https://www.cryptingup.com/api";
-        string allMarketsCrypto = "/markets";
-        string ApiCoinCapDef = "https://api.coincap.io/v2/";
-        string assetsCoinCap = "assets";
-        string candlesCoinCap = "candles?exchange=poloniex&interval=h8&baseId=ethereum&quoteId=bitcoin";
-        //string allCoins = "coins/list";
-        //string tokenPrice = "/simple/token/price/" + "id";
-        //string coinsMarkets = "coins/markets";
-        //string coinPlatform = "/asset_platforms";
-        //string binanceId = "binancecoin";
-        //string supported_vs_currencies = "/simple/supported_vs_currencies";
-        //string requestCoinGeco = "https://api.coingecko.com/api/v3/" + "/coins/";
-        public void InitializeData()
+
+        public void ControlStartWindows()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp(ApiCoinCapDef + assetsCoinCap);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream stream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(stream);
+            currencyConvert = viewModel.currencyConvert;
+            currencies = viewModel.currencies;
+            currencyInfo = viewModel.currencyInfo;
+            ProjectFrame.Content = currencies;
 
-            string readData = reader.ReadToEnd();
-            string[] parsStr = readData.Split('}');
-            foreach(var item in parsStr)
-            {
-                currencies.CurrenciesListBox.Items.Add(item);
-            }
-            
-            var readStr = JsonConvert.DeserializeObject(readData);
-            
-            //foreach(var item in readStr)
-            //{
-            //    currencies.CurrenciesListBox.Items.Add(item);
-            //}
-            response.Close();
         }
 
-        //public string PrettyJson(string unPrettyJson)
-        //{
-        //    var options = new JsonSerializerOptions()
-        //    {
-        //        WriteIndented = true
-        //    };
-        //    return null;
-        //}
+        
+
+
+        public void InitLonguageCombo()
+        {
+            string[] languages = new string []{ "eng-Eng", "uk-UA" };            
+            var lang = CultureInfo.CurrentUICulture;
+            
+            currencyConvert.cultureInform.Text = lang.DisplayName.ToString();
+            foreach(var item in languages)
+            {
+                LaguagesCombo.Items.Add(item);
+            }
+
+           // MainStackPanel.Language = XmlLanguage.GetLanguage(LaguagesCombo.SelectedItem.ToString());
+        }
+        public XmlLanguage ExchangeLanguage()
+        {
+
+            //XmlLanguage.GetLanguage
+
+            return null;
+        }
+
 
         private void Dark_Click(object sender, RoutedEventArgs e)
         {
-            MainStackPanel.Background = Brushes.Gray;
+            MainStackPanel.Background = Brushes.Gray;           
+            
+
             currencies.Background = Brushes.DimGray;
             currencyConvert.Background = Brushes.DimGray;
+            currencies.dataGridCurrencies.Background = Brushes.DimGray;
+            currencies.dataGridCurrencies.Foreground = Brushes.White;
+            //currencies.dataGridCurrencies.AlternatingRowBackground = Brushes.Red;
+            currencies.dataGridCurrencies.RowBackground = Brushes.DimGray;
+            currencies.mainGridCurrencies.Background = Brushes.DimGray;
         }
 
         private void Light_Click(object sender, RoutedEventArgs e)
         {
             MainStackPanel.Background = Brushes.WhiteSmoke;
             ProjectFrame.Background = Brushes.WhiteSmoke;
-        }
-
-        private void Light_Checked(object sender, RoutedEventArgs e)
-        {
-
+            currencies.Background = Brushes.WhiteSmoke;
+            currencyConvert.Background = Brushes.WhiteSmoke;
+            currencies.dataGridCurrencies.Foreground = Brushes.Black;
+            currencies.dataGridCurrencies.Background = Brushes.WhiteSmoke;
+            currencies.dataGridCurrencies.RowBackground = Brushes.WhiteSmoke;
+            currencies.mainGridCurrencies.Background = Brushes.WhiteSmoke;
         }
 
         private void SearchCurrency_Click(object sender, RoutedEventArgs e)
         {
-
+            if(!string.IsNullOrEmpty(NameCurrencyTextBox.Text) || !string.IsNullOrWhiteSpace(NameCurrencyTextBox.Text))
+            {
+                foreach(Crypto cr in data.CryptoList.Data)
+                {
+                    if(cr.id == NameCurrencyTextBox.Text.ToLower() || cr.symbol == NameCurrencyTextBox.Text.ToUpper())
+                    {
+                        currencyInfo.InfoTextBlock.Text = cr.ToString();
+                        ProjectFrame.Content = currencyInfo;
+                    }
+                }                 
+            }            
         }
 
         private void Main_Currencies_Click(object sender, RoutedEventArgs e)

@@ -6,16 +6,26 @@ using System.Threading.Tasks;
 
 namespace CryptocurrenciesMonitoring.Models
 {
-    class Crypto
+    public class Crypto
     {
-        public string Id { get; set; }
-        public int Rank { get; set; }
-        public string SymbolCurrency { get; set; }
-        public string NameCurrency { get; set; }
-        public decimal Supply { get; set; }
-        public decimal PriceUsd { get; set; }
-        public float ChangeParcent24Hr { get; set; }
-        public decimal MarketCapUsd { get; set; }
-        public decimal VolumeUsd24Hr { get; set; }
+        public string id { get; set; }
+        public int? rank { get; set; }
+        public string symbol { get; set; }
+        public string name { get; set; }
+        public decimal? supply { get; set; }
+        public decimal? maxSupply { get; set; }
+        public decimal? marketCapUsd { get; set; }
+        public decimal? volumeUsd24Hr { get; set; }
+        public decimal? priceUsd { get; set; }
+        public decimal? changePercent24Hr { get; set; }
+        public decimal? vwap24Hr { get; set; }
+        public string explorer { get; set; }
+
+
+        public override string ToString()
+        {
+           // return $"ID:{asset_id}, Name:{name}";
+            return $"ID: {id}, Name: {name}, SymbolCurrency: {symbol}, PriceUsd: {priceUsd}, Change_to_24_Hr: {changePercent24Hr}%, Volume_Usd_24_Hr {volumeUsd24Hr}, Supply: {supply}.";
+        }
     }
 }

@@ -7,10 +7,24 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CurrencyInfo">
-
     <Grid Background="WhiteSmoke">
-        <StackPanel Height="450" Width="800">
-            <TextBlock x:Name="Info" Text="Info" HorizontalAlignment="Center" Margin="10"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Height="450" Width="800">            
+            <DataGrid x:Name="dataGridCurrencyInfo" FontSize="14" Margin="20,10,10,20" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" ItemsSource="{Binding SelectedCrypto}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Rank" Width="40" Binding="{Binding Path = rank}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="CryptoCurrency Name" Width="180" Binding="{Binding Path = name}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Symbol" Width="60" Binding="{Binding Path = symbol }"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Price $" Width="180" Binding="{Binding Path = priceUsd}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Change 24h" Width="120" Binding="{Binding Path = changePercent24Hr}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Volume 24h" Width="*" Binding="{Binding Path = volumeUsd24Hr}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBox x:Name="InfoTextBlock" Height="50" HorizontalAlignment="Center" Margin="10"/>
         </StackPanel>
+        <TextBlock Grid.Row="1" Margin="10"/>
     </Grid>
 </Page>

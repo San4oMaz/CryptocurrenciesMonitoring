@@ -20,9 +20,19 @@ namespace CryptocurrenciesMonitoring
     /// </summary>
     public partial class Currencies : Page
     {
+        CurrencyInfo currencyInfo;
         public Currencies()
         {
             InitializeComponent();
+            currencyInfo = new CurrencyInfo();
+        }
+
+        private void Data_Grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGridCurrencies.SelectedItem != null)
+            {
+                currencyInfo.InfoTextBlock.Text = dataGridCurrencies.SelectedValue.ToString();
+            }
         }
     }
 }

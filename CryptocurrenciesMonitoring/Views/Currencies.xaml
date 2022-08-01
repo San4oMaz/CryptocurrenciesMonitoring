@@ -8,12 +8,16 @@
       d:DesignHeight="550" d:DesignWidth="900"
       Title="Currencies">
 
-    <Grid Background="WhiteSmoke">
-        <StackPanel Height="550" Width="900">
-            <Label Content="All Currencies" HorizontalAlignment="Center"/>
-            <ListBox x:Name="CurrenciesListBox" SelectionMode="Single" Height="525">
-                
-            </ListBox>
-        </StackPanel>
+    <Grid x:Name="mainGridCurrencies" Background="WhiteSmoke">
+        <DataGrid x:Name="dataGridCurrencies" FontSize="14" Margin="20,10,10,20" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" SelectionMode="Single" ItemsSource="{Binding CryptoList}" SelectedItem="{Binding SelectedCrypto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Rank" Width="40" Binding="{Binding Path = rank}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="CryptoCurrency Name" Width="180" Binding="{Binding Path = name}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Symbol" Width="60" Binding="{Binding Path = symbol }"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Price $" Width="180" Binding="{Binding Path = priceUsd}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Change 24h" Width="120" Binding="{Binding Path = changePercent24Hr}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Volume 24h" Width="*" Binding="{Binding Path = volumeUsd24Hr}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
